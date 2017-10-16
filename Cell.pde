@@ -1,62 +1,46 @@
 class Cell
 {
+  PVector position; // Position of center of hexagon
+  PVector edge; //Position of edges
 
-  PVector position; // Position of center of Cell
-  PVector edge; // Position of edge of Cell
+  float R; // Maximum radius of hexagon
+  float r; // Minimum radius of hexagon
+  float w; // width of cell;
+  int col, row; // Number of column and rows
 
-  int state; // State of cell
-
-  float size; // Size of ellipse in which hexagonal will be written
-  float R; // maximum radius of circle
-  float r; // minimum radius of circle
-
-  Cell(PVector pos, int NoCs, int NoRs)
+  Cell(float wid, int col)
   {
-    R = get_R(int(pos.x), NoCs);
-    r = get_r(int(pos.y), NoRs);
-    println(pos + " R: " + R + " r: " + r);
+    w = wid;
+    R = w/2;
+    this.col = col;
 
-    if(pos.y % 2 == 0)
+    if (col%2 == 0)
     {
-      position = new PVector(R + pos.x*3*R, r + r*pos.y);
-      state = 1;
+      position = new PVector(3*R*(col/2), 30);
     }
     else
     {
-      position = new PVector(2.5*R + pos.x*3*R, 0 + 2*pos.y*r);
+      position = new PVector(-1.5*R + 3*R*(col/2 + col%2), 45);
     }
     edge = new PVector(-R, 0);
   }
 
-  float get_R(int x_pos, int cols)
-  {
-    return (width/cols)/2;
-  }
-
-  float get_r(int y_pos, int rows)
-  {
-    return ((3*R)/(2*sqrt(3)));
-  }
-
   void display()
   {
-    if (state == 1) fill(255);
-    if (state == 0) fill (172);
+    fill(255);
 
-    pushMatrix(); // Save the matrix
-
-    translate(position.x, position.y); // Translate to center of cell
+    pushMatrix();
+    translate(position.x, position.y);
 
     beginShape();
-
     for (int i = 0; i < 6; i++)
     {
       vertex(edge.x, edge.y);
       edge.rotate(PI/3);
     }
-
     endShape(CLOSE);
-
+    fill(0);
+    text(""+col, -10, 0);
     popMatrix();
   }
 }
