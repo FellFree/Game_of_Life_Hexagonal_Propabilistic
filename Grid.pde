@@ -9,9 +9,10 @@ class Grid
     NoRs = 10;
     
     float R = wid/2;
+    float r = (3*R)/(2*sqrt(3));
     
     calculateNoCs(R);
-    println(NoCs);
+    calculateNoRs(r);
    
 
     cells = new Cell[NoCs][NoRs];
@@ -20,7 +21,21 @@ class Grid
     
   }
   
-  // Calculate the number of columns with given R from constructor
+  // Calculate the number of columns with given r (minimun radius of cell) from contructor
+  void calculateNoRs(float r)
+  {
+    float sum = 0;
+    
+    while(sum < height)
+    {
+     NoRs++;
+     sum += r;
+    }
+    
+    println("NoRs: " + NoRs);
+  }
+  
+  // Calculate the number of columns with given R (maximum radius of cell) from constructor
   void calculateNoCs(float R)
   {
     float sum = 0; // Columns widths sum
@@ -37,6 +52,8 @@ class Grid
       NoCs--; 
     }
     
+    println("NoCs: " + NoCs);
+    
     // There is no need for return the NoCs becouse it is global variable
   }
   
@@ -47,7 +64,7 @@ class Grid
     {
       for(int j = 0; j < NoRs; j++)
       {
-        cells[i][j] = new Cell(wid, i); // Create new Cell;
+        cells[i][j] = new Cell(wid, i, j); // Create new Cell;
       }
     }
   }
