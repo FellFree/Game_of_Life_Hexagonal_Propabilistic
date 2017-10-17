@@ -1,7 +1,7 @@
 class Cell
 {
   PVector position; // Position of center of hexagon
-  PVector edge; //Position of edges
+  PVector edges[]; //Position of edges
 
   float R; // Maximum radius of hexagon
   float r; // Minimum radius of hexagon
@@ -17,7 +17,9 @@ class Cell
     w = wid;
     R = w/2;
     r = (3*R)/(2*sqrt(3));
+
     this.col = col;
+    this.row = row;
 
     if (col%2 == 0)
     {
@@ -26,7 +28,19 @@ class Cell
     {
       position = new PVector(-1.5*R + 3*R*(col/2 + col%2), 2*r*row);
     }
-    edge = new PVector(-R, 0);
+
+    edges = new PVector[6];
+    makeEdges(R);
+  }
+
+  void makeEdges(float R)
+  {
+    PVector temp = new PVector(-R, 0);
+    for (int i = 0; i < 6; i++)
+    {
+      edges[i] = temp.copy();
+      temp.rotate(PI/3);
+    }
   }
 
   void display()
@@ -37,12 +51,14 @@ class Cell
     translate(position.x, position.y);
 
     beginShape();
-    for (int i = 0; i < 6; i++)
+
+    for (PVector v : edges)
     {
-      vertex(edge.x, edge.y);
-      edge.rotate(radians(61));
+      vertex(v.x, v.y);
     }
+
     endShape(CLOSE);
+
     fill(0);
     text(""+col, -10, 0);
     popMatrix();

@@ -3,22 +3,33 @@ class Grid
   Cell[][] cells; // Main grid of cells
 
   int NoCs = 0, NoRs = 0; // Number of columns and rows
+  float R, r; // Maximum and minimum radius of the Cells
+  float wid; // 
 
   Grid(float wid)
-  {
-    NoRs = 10;
+  {    
+    // Calculate the maximum and minimum radius of the hexagon Cell
+    R = wid/2;
+    r = (3*R)/(2*sqrt(3));
     
-    float R = wid/2;
-    float r = (3*R)/(2*sqrt(3));
-    
+    // Calculate the number of columns and rows
     calculateNoCs(R);
-    calculateNoRs(r);
-   
+    calculateNoRs(r);  
 
+    // Create array of Cells
     cells = new Cell[NoCs][NoRs];
     
-    prepareGrid(2*R); // prepare cells in grid
+    // Prepare cells in grid  
+    prepareGrid(2*R); 
+  }
+  
+  // Checks which Cell was clicked
+  void checkClick(PVector mouse)
+  {
+    int x = int(mouse.x/(1.5*R));
+    int y = int(mouse.y/(r));
     
+    println("x: " + x + " y: " + y);
   }
   
   // Calculate the number of columns with given r (minimun radius of cell) from contructor
@@ -32,7 +43,7 @@ class Grid
      sum += r;
     }
     
-    println("NoRs: " + NoRs);
+    // There is no need for return the NoRs becouse it is global variable
   }
   
   // Calculate the number of columns with given R (maximum radius of cell) from constructor
@@ -46,7 +57,7 @@ class Grid
       sum += 1.5*R; // 1.5R is the width of one column
     }
     
-    // If sum of widths of columns is too great, subtract one column
+    // If sum of widths of columns is too great, subtract one column. It's no necessery
     if(sum > (width + 2*R))
     {
       NoCs--; 
@@ -69,6 +80,7 @@ class Grid
     }
   }
 
+  // Display all Cells
   void display()
   {
     for (int i = 0; i < NoCs; i++)

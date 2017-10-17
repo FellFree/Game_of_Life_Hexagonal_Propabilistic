@@ -11,3 +11,9 @@ void draw()
   background(0);
   grid.display();
 }
+
+void mouseReleased()
+{
+  PVector mouse = new PVector(mouseX, mouseY);
+  grid.checkClick(mouse);
+}
