@@ -4,14 +4,14 @@ class Grid
 
   int NoCs = 0, NoRs = 0; // Number of columns and rows
 
-  Grid(int cols, int rows)
+  Grid(float wid)
   {
-    NoCs = 0;
-    NoRs = rows;
+    NoRs = 10;
     
-    float R = (width/cols)/2;
+    float R = wid/2;
     
     calculateNoCs(R);
+    println(NoCs);
    
 
     cells = new Cell[NoCs][NoRs];
