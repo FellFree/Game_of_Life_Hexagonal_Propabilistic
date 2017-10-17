@@ -1,5 +1,6 @@
 class Cell
 {
+  PVector realPosition; // Real position of center of hexagon
   PVector position; // Position of center of hexagon
   PVector edges[]; //Position of edges
 
@@ -8,11 +9,11 @@ class Cell
   float w; // width of cell;
 
   int col, row; // Number of column and rows
-  int status; // Status of the Cell. Can be 0 or 1;
+  int state; // Status of the Cell. Can be 0 or 1;
 
   Cell(float wid, int col, int row)
   {
-    status = 0;
+    state = 0;
 
     w = wid;
     R = w/2;
@@ -31,6 +32,16 @@ class Cell
 
     edges = new PVector[6];
     makeEdges(R);
+  }
+  
+  void changeState()
+  {
+    if(state == 0) state = 1;
+    else state = 0;
+  }
+  
+  boolean checkClick(PVector mouse)
+  {
   }
 
   void makeEdges(float R)

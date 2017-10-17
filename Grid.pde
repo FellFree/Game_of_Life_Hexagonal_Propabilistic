@@ -26,10 +26,17 @@ class Grid
   // Checks which Cell was clicked
   void checkClick(PVector mouse)
   {
-    int x = int(mouse.x/(1.5*R));
-    int y = int(mouse.y/(r));
     
-    println("x: " + x + " y: " + y);
+    for(int i = 0; i < NoCs; i++)
+    {
+      for(int j = 0; j < NoRs; j++)
+      {
+        if(cells[i][j].checkClick(mouse))
+        {
+          cells[i][j].changeState();
+        }
+      }
+    }
   }
   
   // Calculate the number of columns with given r (minimun radius of cell) from contructor
