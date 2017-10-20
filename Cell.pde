@@ -1,6 +1,5 @@
 class Cell
 {
-  PVector realPosition; // Real position of center of hexagon
   PVector position; // Position of center of hexagon
   PVector edges[]; //Position of edges
 
@@ -10,6 +9,7 @@ class Cell
 
   int col, row; // Number of column and rows
   int state; // Status of the Cell. Can be 0 or 1;
+  int neighbours; // Number of neighbours of cell;
 
   Cell(float wid, int col, int row)
   {
@@ -34,14 +34,36 @@ class Cell
     makeEdges(R);
   }
   
+  void countNeighbors()
+  {
+    
+  }
+
+  // Check if this cell is clicked. If jest then return true else false
+  boolean checkClick(PVector mouse)
+  {
+    PVector diff = position.copy().sub(mouse.copy());
+    float distance = diff.mag();
+
+    if (distance <= r)
+    {
+      println("Coordinates of cell: " + col + ":" + row + " distance: " + distance);
+      return true;
+    }
+
+    return false;
+  }
+
+  // Change state of cells to opposite
   void changeState()
   {
-    if(state == 0) state = 1;
+    if (state == 0) state = 1;
     else state = 0;
   }
   
-  boolean checkClick(PVector mouse)
+  int getState()
   {
+    return state;
   }
 
   void makeEdges(float R)
@@ -56,7 +78,8 @@ class Cell
 
   void display()
   {
-    fill(255);
+    if (state == 0) fill(172);
+    if (state == 1) fill(255);
 
     pushMatrix();
     translate(position.x, position.y);
@@ -69,9 +92,9 @@ class Cell
     }
 
     endShape(CLOSE);
-
+    
     fill(0);
-    text(""+col, -10, 0);
+    text(col+ ":" + row, -10, 3);
     popMatrix();
   }
 }

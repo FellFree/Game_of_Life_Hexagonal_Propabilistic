@@ -23,9 +23,36 @@ class Grid
     prepareGrid(2*R); 
   }
   
-  // Checks which Cell was clicked
-  void checkClick(PVector mouse)
+  // Count ceighbors for each cell;
+  
+  void countNeighbors()
   {
+    for (int i = 0; i < NoCs; i++)
+    {
+      for( int j = 0; j < NoRs; j++)
+      {
+        countNeighbors(i,j);
+      }
+    }
+  }
+  
+  void countNeighbors(int col, int row)
+  {
+    int sum = 0;
+    
+    //sum += cells[][].getState();
+    //sum += cells[][].getState();
+    //sum += cells[][].getState();
+    //sum += cells[][].getState();
+    //sum += cells[][].getState();
+    //sum += cells[][].getState();
+  }
+  
+  // Check which cell is clicked and changest it's state to opposite
+  void click(PVector mouse)
+  {
+    
+    println("----------------------------------------------------------------------");
     
     for(int i = 0; i < NoCs; i++)
     {

@@ -14,6 +14,9 @@ void draw()
 
 void mouseReleased()
 {
-  PVector mouse = new PVector(mouseX, mouseY);
-  grid.checkClick(mouse);
+  if (mouseButton == LEFT)
+  {
+    PVector mouse = new PVector(mouseX, mouseY);
+    grid.click(mouse);
+  }
 }
