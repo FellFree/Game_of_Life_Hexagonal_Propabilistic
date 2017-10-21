@@ -1,18 +1,20 @@
 class Cell
 {
   PVector position; // Position of center of hexagon
-  PVector edges[]; //Position of edges
+  PVector edges[];  // Position of edges
+  PVector diff;     // Vector between something and center of the Cell
 
-  float R; // Maximum radius of hexagon
-  float r; // Minimum radius of hexagon
-  float w; // width of cell;
+  float R;          // Maximum radius of hexagon
+  float r;          // Minimum radius of hexagon
+  float w;          // width of cell;
 
-  int col, row; // Number of column and rows
-  int state; // Status of the Cell. Can be 0 or 1;
-  int neighbours; // Number of neighbours of cell;
+  int col, row;     // Number of column and rows
+  int state;        // Status of the Cell. Can be 0 or 1;
+  int neighbors;    // Number of neighbours of cell;
 
   Cell(float wid, int col, int row)
   {
+    neighbors = 0;
     state = 0;
 
     w = wid;
@@ -34,23 +36,21 @@ class Cell
     makeEdges(R);
   }
   
-  void countNeighbors()
+  // Adds neighbors
+  void addNeighbors(int n)
   {
-    
+    neighbors = n;
   }
 
   // Check if this cell is clicked. If jest then return true else false
   boolean checkClick(PVector mouse)
   {
-    PVector diff = position.copy().sub(mouse.copy());
-    float distance = diff.mag();
+    diff = position.copy().sub(mouse.copy());
 
-    if (distance <= r)
+    if (diff.mag() <= r)
     {
-      println("Coordinates of cell: " + col + ":" + row + " distance: " + distance);
       return true;
     }
-
     return false;
   }
 
@@ -61,11 +61,23 @@ class Cell
     else state = 0;
   }
   
+  // Sets Cells state
+  void setState(int s)
+  {
+    if(s == 1 || s == 0)
+    {
+      state = s;
+    }
+  }
+  
+  // Returns current state of Cell
   int getState()
   {
     return state;
   }
 
+  // Set the edges of the Cell. This function is executed only one, 
+  // so there is no need to make global temp PVector 
   void makeEdges(float R)
   {
     PVector temp = new PVector(-R, 0);
@@ -94,7 +106,8 @@ class Cell
     endShape(CLOSE);
     
     fill(0);
-    text(col+ ":" + row, -10, 3);
+    //text(col+ ":" + row, -10, -5);
+    //text(neighbors, -10, 5);
     popMatrix();
   }
 }

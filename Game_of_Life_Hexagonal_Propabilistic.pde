@@ -1,15 +1,22 @@
+boolean flag;
+
 Grid grid;
 
 void setup()
 {
-  size(640, 360);
-  grid = new Grid(40);
+  size(840, 360);
+  grid = new Grid(100);
 }
 
 void draw()
 {
   background(0);
   grid.display();
+  
+  if(flag)
+  {
+    //grid.simulation();
+  }
 }
 
 void mouseReleased()
@@ -18,5 +25,15 @@ void mouseReleased()
   {
     PVector mouse = new PVector(mouseX, mouseY);
     grid.click(mouse);
+    grid.countNeighbors();
+  }
+  
+  if (mouseButton == RIGHT)
+  {
+    if(flag) flag = false;
+    else flag = true;
+    println("Flag: " + flag);
+    grid.countNeighbors();
+    grid.simulation();
   }
 }
