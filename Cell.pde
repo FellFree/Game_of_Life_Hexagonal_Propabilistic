@@ -36,6 +36,11 @@ class Cell
     makeEdges(R);
   }
   
+  int getNeighbors()
+  {
+    return neighbors;
+  }
+  
   // Adds neighbors
   void addNeighbors(int n)
   {
@@ -107,7 +112,7 @@ class Cell
     
     fill(0);
     //text(col+ ":" + row, -10, -5);
-    //text(neighbors, -10, 5);
+    text(neighbors, -10, 5);
     popMatrix();
   }
 }

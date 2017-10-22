@@ -5,8 +5,8 @@ class Grid
   int NoCs = 0, NoRs = 0;  // Number of columns and rows
   int sum;                 // Sum of something
   
-  int[] rulesForAliveOne = {0,0,1,1,1,0}; //Rules how alive cell should act
-  int[] rulesForDeadOne = {0,0,0,0,1,0};  // Rules how dead  cell should act
+  int[] rulesForAliveOne = {0,0,1,1,1,0,0}; //Rules how alive cell should act
+  int[] rulesForDeadOne = {0,0,1,1,0,0,0};  // Rules how dead  cell should act
   
   float R, r;              // Maximum and minimum radius of the Cells
   float wid;               // Width of cell
@@ -44,17 +44,17 @@ class Grid
   // Make the Cells alive (or not)
   void simulation()
   {
+    println("---------------------");
     for(int i = 0; i < NoCs; i++)
     {
       for(int j = 0; j < NoRs; j++)
       {
         if(cells[i][j].getState() == 1)
         {
-          cells[i][j].setState(rulesForAliveOne[cells[i][j].getState()]);
-        }
-        else
+          cells[i][j].setState(rulesForAliveOne[cells[i][j].getNeighbors()]);
+        }else
         {
-          cells[i][j].setState(rulesForDeadOne[cells[i][j].getState()]);
+          cells[i][j].setState(rulesForDeadOne[cells[i][j].getNeighbors()]);
         }
       }
     }
