@@ -1,16 +1,18 @@
 class Cell
 {
-  PVector position; // Position of center of hexagon
-  PVector edges[];  // Position of edges
-  PVector diff;     // Vector between something and center of the Cell
+  private PVector position; // Position of center of hexagon
+  private PVector edges[];  // Position of edges
+  private PVector diff;     // Vector between something and center of the Cell
 
-  float R;          // Maximum radius of hexagon
-  float r;          // Minimum radius of hexagon
-  float w;          // width of cell;
+  private float R;          // Maximum radius of hexagon
+  private float r;          // Minimum radius of hexagon
+  private float w;          // width of cell;
 
-  int col, row;     // Number of column and rows
-  int state;        // Status of the Cell. Can be 0 or 1;
-  int neighbors;    // Number of neighbours of cell;
+  private int col, row;     // Number of column and rows
+  private int state;        // Status of the Cell. Can be 0 or 1;
+  private int neighbors;    // Number of neighbours of cell;
+  
+  private color[] fillCell = {color(0), color(255)}; // Putting all colors in the array
 
   Cell(float wid, int col, int row)
   {
@@ -35,12 +37,12 @@ class Cell
     edges = new PVector[6];
     makeEdges(R);
   }
-  
+
   int getNeighbors()
   {
     return neighbors;
   }
-  
+
   // Adds neighbors
   void addNeighbors(int n)
   {
@@ -65,16 +67,16 @@ class Cell
     if (state == 0) state = 1;
     else state = 0;
   }
-  
+
   // Sets Cells state
   void setState(int s)
   {
-    if(s == 1 || s == 0)
+    if (s == 1 || s == 0)
     {
       state = s;
     }
   }
-  
+
   // Returns current state of Cell
   int getState()
   {
@@ -95,8 +97,8 @@ class Cell
 
   void display()
   {
-    if (state == 0) fill(172);
-    if (state == 1) fill(255);
+    stroke(172);
+    fill(fillCell[state]);
 
     pushMatrix();
     translate(position.x, position.y);
@@ -109,10 +111,10 @@ class Cell
     }
 
     endShape(CLOSE);
-    
+
     fill(0);
     //text(col+ ":" + row, -10, -5);
-    text(neighbors, -10, 5);
+    //text(neighbors, -10, 5);
     popMatrix();
   }
 }

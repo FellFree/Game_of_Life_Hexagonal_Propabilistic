@@ -1,35 +1,31 @@
 class Grid
 {
-  Cell[][] cells;          // Main grid of cells
+  private Cell[][] cells;          // Main grid of cells
 
-  int NoCs = 0, NoRs = 0;  // Number of columns and rows
-  int sum;                 // Sum of something
+  private int NoCs = 0, NoRs = 0;  // Number of columns and rows
+  private int sum;                 // Sum of something
   
-  int[] rulesForAliveOne = {0,0,1,1,1,0,0}; //Rules how alive cell should act
-  int[] rulesForDeadOne = {0,0,1,1,0,0,0};  // Rules how dead  cell should act
+  private int[] rulesForAliveOne = {0,0,0,1,1,0,0}; //Rules how alive cell should act
+  private int[] rulesForDeadOne = {0,0,1,0,0,0,0};  // Rules how dead  cell should act
   
-  float R, r;              // Maximum and minimum radius of the Cells
-  float wid;               // Width of cell
+  private float R, r;              // Maximum and minimum radius of the Cells
+  private float wid;               // Width of cell
 
+  // CONSTRUCTOR
   Grid(float wid)
   {    
-    // Calculate the maximum and minimum radius of the hexagon Cell
-    R = wid/2;
-    r = (3*R)/(2*sqrt(3));
+    R = wid/2;                     // Calculate the maximum radius of the hexagon Cell
+    r = (3*R)/(2*sqrt(3));         // Calculate the minimum radius of the hexagon Cell
+    
+    calculateNoCs(R);              // Calculate the number of columns
+    calculateNoRs(r);              // Calculate the number of rows
 
-    // Calculate the number of columns and rows
-    calculateNoCs(R);
-    calculateNoRs(r);  
-
-    // Create array of Cells
-    cells = new Cell[NoCs][NoRs];
-
-    // Prepare cells in grid  
-    prepareGrid(2*R);
+    cells = new Cell[NoCs][NoRs];  // Create array of Cells
+    
+    prepareGrid(2*R);              // Prepare cells in grid  
   }
 
   // Count ceighbors for each cell;
-
   void countNeighbors()
   {
     for (int i = 0; i < NoCs; i++)
@@ -42,9 +38,8 @@ class Grid
   }
   
   // Make the Cells alive (or not)
-  void simulation()
+  void simulate()
   {
-    println("---------------------");
     for(int i = 0; i < NoCs; i++)
     {
       for(int j = 0; j < NoRs; j++)
@@ -102,43 +97,38 @@ class Grid
         }
       }
     }
+    
+    countNeighbors(); // Updating the neighbors count
   }
 
   // Calculate the number of columns with given r (minimun radius of cell) from contructor
-  void calculateNoRs(float r)
+  // There is no need for return the NoRs because it is global variable
+  private void calculateNoRs(float r)
   {
-    float sum = 0;
-
+    float sum = 0;                      // Rows heights sum
+    
     while (sum < height)
     {
       NoRs++;
       sum += r;
     }
-
-    // There is no need for return the NoRs becouse it is global variable
   }
 
   // Calculate the number of columns with given R (maximum radius of cell) from constructor
-  void calculateNoCs(float R)
+  // There is no need for return the NoCs because it is global variable
+  private void calculateNoCs(float R)
   {
-    float sum = 0; // Columns widths sum
+    float sum = 0;                      // Columns widths sum
 
     while (sum <= width)
     {
       NoCs++;
-      sum += 1.5*R; // 1.5R is the width of one column
+      sum += 1.5*R;                     // 1.5*R is the width of one column
     }
-
-    //// If sum of widths of columns is too great, subtract one column. It's no necessery
-    if (sum > (width + 2*R))
-    {
-      NoCs--;
-    }
-    // There is no need for return the NoCs becouse it is global variable
   }
 
   // For filling the grid with cells at status equals 0;
-  void prepareGrid(float wid)
+  private void prepareGrid(float wid)
   {
     for (int i = 0; i < NoCs; i++)
     {
@@ -147,6 +137,12 @@ class Grid
         cells[i][j] = new Cell(wid, i, j); // Create new Cell;
       }
     }
+  }
+  
+  // For clearing the grid from alive cells
+  void resetGrid()
+  {
+    prepareGrid(2*R);
   }
 
   // Display all Cells
@@ -159,5 +155,12 @@ class Grid
         cells[i][j].display();
       }
     }
+  }
+  
+  // For putting all necessery functions in one function
+  void run()
+  {
+    simulate();
+    countNeighbors();
   }
 }

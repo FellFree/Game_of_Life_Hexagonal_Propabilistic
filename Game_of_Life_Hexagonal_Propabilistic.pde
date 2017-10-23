@@ -1,11 +1,17 @@
-boolean flag;
+PVector mouse;
 
+boolean simulation;
+
+int counter;
 Grid grid;
 
 void setup()
 {
   size(840, 360);
-  grid = new Grid(30);
+  grid = new Grid(20);
+
+  mouse = new PVector();
+  counter = 0;
 }
 
 void draw()
@@ -13,9 +19,14 @@ void draw()
   background(0);
   grid.display();
 
-  if (flag)
+  if (simulation)
   {
-    //grid.simulation();
+    if (counter == 5)
+    {
+      grid.run();
+      counter = 0;
+    }
+    counter++;
   }
 }
 
@@ -23,16 +34,14 @@ void mouseReleased()
 {
   if (mouseButton == LEFT)
   {
-    PVector mouse = new PVector(mouseX, mouseY);
+    mouse = new PVector(mouseX, mouseY);
     grid.click(mouse);
-    grid.countNeighbors();
-  }
-
-  if (mouseButton == RIGHT)
+  } else if (mouseButton == RIGHT)
   {
-    if (flag) flag = false;
-    else flag = true;
-    grid.simulation();
-    grid.countNeighbors();
+    if (simulation) simulation = false;
+    else simulation = true;
+  } else if (mouseButton == CENTER)
+  {
+    grid.resetGrid();
   }
 }
